@@ -116,7 +116,7 @@
                 sentences: [],
                 filterDone: false,
                 showAll: true,
-                user: "papa",
+                user: "admin",
                 pastSentences: []
                 
             }

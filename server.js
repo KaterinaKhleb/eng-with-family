@@ -12,6 +12,8 @@ mongoose.connect(mongolink).then(
     err => { console.log('Error when connecting to the database' + err) }
 );
 mongoose.set('useFindAndModify', false);
+mongoose.set("useCreateIndex", true)
+
 
 const app = express();
 

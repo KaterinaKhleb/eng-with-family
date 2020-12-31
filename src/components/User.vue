@@ -29,11 +29,13 @@
       </div>
       <h3 class="strike-word">Your weekly strike:</h3>
       <!-- <img class="strike" src="../assets/strike_mono.png"> -->
-    <div v-if="user==='mama' || user ==='papa'" class="notes-lists" >
-            <div v-if="user === 'mama'" v-for="n in mamaStrike" v-bind:key="n"  class="note ">
+    <div v-if="user==='mama'" class="notes-lists" >
+            <div v-for="n in mamaStrike" v-bind:key="n"  class="note ">
                 <span>{{n}}</span>
             </div>
-             <div v-if="user === 'papa'" v-for="n in papaStrike" v-bind:key="n"  class="note ">
+    </div>
+        <div v-if="user==='papa'" class="notes-lists" >
+             <div v-for="n in papaStrike" v-bind:key="n"  class="note ">
                 <span>{{n}}</span>
             </div>
     </div>

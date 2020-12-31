@@ -43,7 +43,7 @@
   </g>
 </svg>
 <h1 class="hello">Hello,</h1>
-<input v-model="user" type="text">
+<input v-model="user"  v-on:keyup.enter="navigate()" type="text">
 <button v-on:click="navigate()" class="from-center">E n t e r </button>
 
 	<div class="bird-container ">
@@ -65,18 +65,31 @@
 <script>
 
 import router from '../router'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Enter',
-  user: "",
+    data () {
+             return {
+                user: "",
+                
+            }
+    },
   props: {
     msg: String
   },
-    methods: {
-            navigate() {
-                router.push({ name: "User" });
-            },
-        }
+  methods: {
+    ...mapActions(['login']),
+
+    async navigate() {
+      console.log('User', this.user)
+      const success = await this.login(this.user);
+      if (success) {
+        router.push({ name: "User" });
+      }
+      this.$forceUpdate()
+    },
+  }
 }
 </script>
 

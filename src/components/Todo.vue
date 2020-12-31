@@ -200,7 +200,6 @@
                 if (todo.completed == true) {
                   todo.completed = false
                   this.$store.dispatch("checkTodo", todo);
-                  console.log(todo)
                 }
               })
             },
@@ -211,7 +210,6 @@
                 if (todo.completed == false) {
                   todo.completed = true
                   this.$store.dispatch("checkTodo", todo);
-                  console.log(todo)
                 }
               })
               setTimeout(() => {

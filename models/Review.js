@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const EssaySchema = mongoose.Schema({
+const ReviewSchema = mongoose.Schema({
     task: String,
     mamaVersion: String,
     papaVersion: String,
@@ -11,7 +11,7 @@ const EssaySchema = mongoose.Schema({
 }, {
     timestamps: true
 }, {
-    collection: 'essays'
+    collection: 'reviews'
 });
 
-module.exports = mongoose.model('Essay', EssaySchema);
+module.exports = mongoose.model('Review', ReviewSchema);

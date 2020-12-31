@@ -1,57 +1,62 @@
 import axios from 'axios';
-const resource_uri = '/notesdb'
-const create_uri = '/createnote'
-const delete_uri = '/deletenote'
-const update_uri = '/updatenote'
-const pin_uri_todos = '/pintodo'
-const resource_uri_shops = '/shopdb'
-const create_uri_shop = '/createshop'
-const update_uri_shop = '/updateshop'
-const pin_uri_shop = '/pinshop'
-const delete_uri_shop = '/deleteshop'
 
-const url = ""
-
-
+const url = "" //"http://localhost:3000"
 
 const state = {
 
-    notes: [],
-    todos: [],
-    shop: [],
     sentences: [],
-    pastSentences: []
+    pastSentences: [],
+    essays: [],
+    pastEssays: [],
+    reviews: [],
+    pastreviews: [],
+    username: "",
+    mamaStrikes: 0,
+    papaStrikes: 0
 
 };
 
 const getters = {
-    allNotes: (state) => state.notes,
     allSentences: (state) => state.sentences,
-    allShops: (state) => state.shop,
     allPastSentences: (state) => state.pastSentences,
+    essay: (state) => state.essays,
+    pastEssay: (state) => state.pastEssays,
+    review: (state) => state.reviews,
+    pastreview: (state) => state.pastreviews,
+    username: (state) => state.username,
+    mamaStrike: (state) => state.mamaStrikes,
+    papaStrike: (state) => state.papaStrikes,
 }
 
 const actions = {
-    async fetchNotes({ commit }) {
-        const response = await axios.get(resource_uri)
-        commit('setNotes', response.data)
-    },
-    async addNote({ commit }, note) {
-        const response = await axios.post(create_uri, note);
-        commit('newNote', response.data.note);
-    },
-    async removeNote({ commit }, note) {
-        await axios.delete(delete_uri, { data: note });
-        commit('deleteNote', note)
-    },
-    async editNote({ commit }, note) {
-        await axios.put(update_uri, { data: note });
-        commit('updateNote', note)
-    },
+    async userinfo({ commit }) {
+        console.log("Fetching user info")
+        const response = await axios.get(url + "/userinfo");
+        commit("setUserinfo", response.data.user)
 
-
+    },
+    async login(_, name) {
+        console.log('Logging in as:', name)
+        const response = await axios.post(url + "/login", { name });
+        if (response.data !== "OK") {
+            console.log("Login failed");
+            return false;
+        } else {
+            console.log('Login success')
+            return true;
+        }
+    },
+    async fetchUserStrikes({ commit }, userName) {
+        const response = await axios.get(url + "/user/" + userName)
+        commit('setUserStrikes', response.data)
+    },
+    async saveUserStrikes(_, data) {
+        await axios.put(url + "/user", { data: data });
+        // commit('updateSentence', sent)
+    },
     async fetchSentences({ commit }, userName) {
         const response = await axios.get(url + "/sentences/" + userName)
+        console.log(response.data)
         commit('setSentences', response.data)
     },
     async fetchPastSentences({ commit }, userName) {
@@ -73,47 +78,60 @@ const actions = {
         await axios.put(url + "/sentences", { data: sent });
         commit('updateSentence', sent)
     },
-    async pinTodo({ commit }, todo) {
-        await axios.put(pin_uri_todos, { data: todo });
-        commit('updateTodo', todo)
+
+    async fetchreviews({ commit }, userName) {
+        const response = await axios.get(url + "/review/" + userName)
+        commit('setReviews', response.data)
+        console.log(response.data)
+
+    },
+    async fetchPastreviews({ commit }, userName) {
+        const response = await axios.get(url + "/pastreview/" + userName)
+        commit('setPastReviews', response.data)
+
+    },
+    async addreview({ commit }, sent) {
+        console.log(sent)
+        const response = await axios.post(url + "/review", sent);
+        commit('newReview', response.data);
+    },
+    async removereview({ commit }, sent) {
+        await axios.delete(url + "/review", { data: sent });
+        commit('deleteReview')
+    },
+    async savereview({ commit }, sent) {
+        await axios.put(url + "/review", { data: sent });
+        commit('updateReview', sent)
     },
 
-    async fetchShops({ commit }) {
-        const response = await axios.get(resource_uri_shops)
-        commit('setShops', response.data)
-    },
+    async fetchEssays({ commit }, userName) {
+        const response = await axios.get(url + "/essay/" + userName)
+        commit('setEssays', response.data)
+        console.log(response.data)
 
-    async addShopList({ commit }, list) {
-        const response = await axios.post(create_uri_shop, list);
-        commit('newShopList', response.data.shop);
     },
-    async updateShopList({ commit }, list) {
-        await axios.put(update_uri_shop, { data: list });
-        commit('updateShop', list)
-    },
-    async pinShopList({ commit }, list) {
-        await axios.put(pin_uri_shop, { data: list });
-        commit('updateShop', list)
-    },
-    async removeShopList({ commit }, list) {
-        await axios.delete(delete_uri_shop, { data: list });
-        commit('deleteShopList', list)
-    },
+    async fetchPastEssays({ commit }, userName) {
+        const response = await axios.get(url + "/pastessay/" + userName)
+        commit('setPastEssays', response.data)
 
-
-
+    },
+    async addEssay({ commit }, sent) {
+        const response = await axios.post(url + "/essay", sent);
+        commit('newEssay', response.data);
+    },
+    async removeEssay({ commit }, sent) {
+        await axios.delete(url + "/essay", { data: sent });
+        commit('deleteEssay')
+    },
+    async saveEssay({ commit }, sent) {
+        await axios.put(url + "/essay", { data: sent });
+        commit('updateEssay', sent)
+    }
 };
 
 const mutations = {
-    setNotes: (state, notes) => state.notes = notes,
-    newNote: (state, note) => state.notes.push(note),
-    deleteNote: (state, note) => {
-        let index = state.notes.findIndex(n => n._id == note._id)
-        state.notes.splice(index, 1)
-    },
-    updateNote: (state, note) => {
-        state.notes.findIndex(n => n._id == note._id)
-    },
+
+    setUserinfo: (state, info) => state.username = info,
 
     setSentences: (state, sent) => state.sentences = sent,
     setPastSentences: (state, sent) => state.pastSentences = sent,
@@ -126,19 +144,29 @@ const mutations = {
         state.sentences.findIndex(t => t._id == sent._id)
     },
 
-
-    setShops: (state, shop) => state.shop = shop,
-
-    newShopList: (state, list) => state.shop.push(list),
-    updateShop: (state, list) => {
-        state.shop.findIndex(t => t._id == list._id)
+    setEssays: (state, sent) => state.essays = sent,
+    setPastEssays: (state, sent) => state.pastEssays = sent,
+    newEssay: (state, sent) => state.essays.push(sent),
+    updateEssay: (state, sent) => {
+        state.essays = sent
     },
-    deleteShopList: (state, list) => {
-        let index = state.shop.findIndex(s => s._id == list._id)
-        state.shop.splice(index, 1)
+    deleteEssay: () => console.log("ok"),
+    setReviews: (state, sent) => state.reviews = sent,
+    setPastReviews: (state, sent) => state.pastreviews = sent,
+    newReview: (state, sent) => state.reviews.push(sent),
+    updateReview: (state, sent) => {
+        state.reviews = sent
     },
+    deleteReview: () => console.log("ok"),
+    setUserStrikes: (state, data) => {
+        console.log("DBXEIEIBDYEX", data)
 
-
+        if (data[0].name === 'mama') {
+            state.mamaStrikes = data[0].strikes
+        } else if (data[0].name === 'papa') {
+            state.papaStrikes = data[0].strikes
+        }
+    }
 }
 
 export default {

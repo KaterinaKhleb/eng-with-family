@@ -20,11 +20,11 @@
           <div style="margin-top: 30px">
             <h3>Your previous task:</h3>
             <ul  class="list"  v-if="pastFilteredSents.length"> 
-             <li class="one-todo" v-for="sent in pastFilteredSents" :key="sent._id" >
-              <div  class="row" >
+             <li class="one-todo" v-for="sent in pastFilteredSents" :key="sent.text" >
+              <div  class="row" v-if="(user==='mama'&&sent.mamaResolved===false)||(user==='papa'&&sent.papaResolved===false)||(user==='admin')">
                <div class="check-holder" > 
-                 <img v-if="sent.mamaCheck&&user==='mama'" src="../assets/check.png">
-                 <img v-if="sent.papaCheck&&user==='papa'" src="../assets/check.png">
+                 <img v-if="sent.mamaCheck && (user === 'mama'||user === 'admin')" src="../assets/check.png">
+                 <img v-if="sent.papaCheck && (user==='papa' || user === 'admin')" src="../assets/check.png">
                </div> 
                <div class="span-holder" style="diplay: flex; flex-direction: column">
                   <span class="line line-small" >{{sent.text}}</span>
@@ -64,7 +64,7 @@
              
 
             <ul  class="list">
-            <li  v-for="sent in filteredSentences" :key="sent._id"  >
+            <li  v-for="sent in filteredSentences" :key="sent.textarea"  >
               <div style="display: flex; flex-direction:column">
                 <div  class="row one-todo" >
                <div class="check-holder"> </div> 
@@ -75,8 +75,12 @@
                 <div  class="row one-todo" >
                    <div class="check-holder"></div> 
                    <div class="span-holder">
-                     <input type="text" v-if="user==='mama'" class="line" v-model="sent.mamaVersion" contenteditable="true" >  
-                     <input type="text" v-if="user==='papa'" class="line" v-model="sent.papaVersion" contenteditable="true" >  
+                     <div v-if="user==='mama'">
+                        <input type="text" class="line" v-model="sent.mamaVersion" contenteditable="true" >  
+                     </div>
+                     <div v-if="user==='papa'">  
+                      <input type="text"  class="line" v-model="sent.papaVersion" contenteditable="true" >  
+                     </div>
                     </div>
                 </div>  
               </div>
@@ -99,12 +103,11 @@
     export default {
         name: 'Todo',
         computed: {
-          ...mapGetters(['allSentences', "allPastSentences"]),
+          ...mapGetters(['allSentences', "allPastSentences", "username"]),
           filteredSentences: function () {
                 return this.allSentences
               }, 
           pastFilteredSents () {
-            console.log("JhdrjhIHnfd", this.allPastSentences)
             return this.allPastSentences
           }
         },
@@ -116,28 +119,31 @@
                 sentences: [],
                 filterDone: false,
                 showAll: true,
-                user: "admin",
+                user: "",
                 pastSentences: []
                 
             }
         },
         async created(){
+          await this.userinfo(this.user)
+          this.user = this.username
+
           await this.fetchSentences(this.user)
           await this.fetchPastSentences(this.user)
 
-          this.allPastSentences.forEach(sent => {
+   
+          this.allPastSentences.forEach(sent => { 
             if((sent.mamaResolved === true )&& (sent.papaResolved === true)) {
               this.deleteSentence(sent)
             }
           })
-
         },
         methods:{
-            ...mapActions(['fetchSentences', "fetchPastSentences", 'addSentence', 'saveSentence', 'pinTodo', 'checkTodo']),
+            ...mapActions(['fetchSentences', "fetchPastSentences", 'addSentence', 'saveSentence', 'userinfo']),
        
               newSentence: function(){
                 let payload = {
-               text: this.addSentenceInput,
+                text: this.addSentenceInput,
                 mamaVersion: "",
                 papaVersion: "",
                 mamaCheck: false,
@@ -146,14 +152,16 @@
                 papaResolved: false
                 };
               this.$store.dispatch("addSentence", payload);
-            this.addTodoInput = '';
+            this.addSentenceInput = '';
+            this.filteredSentences.push(payload)
               },
               saveSentences() {
                 this.filteredSentences.forEach((sent) => {
                 let toSend = {data: sent, user: this.user}
-                console.log(sent)
                 this.$store.dispatch("saveSentence", toSend);
                 })
+                this.filteredSentences = []
+                this.$$forceUpdate()
               },
               checkCorrection(sent,name) {
                 if (name==="mama") {
@@ -170,14 +178,12 @@
                   this.pastFilteredSents.forEach((sent) => {
                     sent.mamaResolved = true
                     let toSend = {data: sent, user: this.user}
-                    console.log(toSend)
                     this.$store.dispatch("saveSentence", toSend);
                 })
                 }else if (this.user === "papa"){
                    this.pastFilteredSents.forEach((sent) => {
                     sent.papaResolved = true
                     let toSend = {data: sent, user: this.user}
-                    console.log(toSend)
                     this.$store.dispatch("saveSentence", toSend);
                 })
                 }
@@ -230,7 +236,6 @@
                 if (todo.completed == true) {
                   todo.completed = false
                   this.$store.dispatch("checkTodo", todo);
-                  console.log(todo)
                 }
               })
             },
@@ -241,7 +246,6 @@
                 if (todo.completed == false) {
                   todo.completed = true
                   this.$store.dispatch("checkTodo", todo);
-                  console.log(todo)
                 }
               })
               setTimeout(() => {
@@ -310,6 +314,7 @@ text-decoration:none;
 .main-half {
     width:50%;
     display: block;
+    overflow-y: scroll
     }
 input[type=text]{
   border: 0;
@@ -379,7 +384,7 @@ font-size: 24px
   border-bottom: 1px dotted black;
   height: auto;
   background: white;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   text-align: left;
   display: flex;
   width: 100%;

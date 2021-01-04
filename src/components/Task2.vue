@@ -196,6 +196,9 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  font-size: 1.1em
+}
 .resolve-btn {
   position: absolute;
   bottom: 5%;

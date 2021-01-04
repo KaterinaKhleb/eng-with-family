@@ -159,7 +159,7 @@ export default {
 
 <style>
 p {
-  font-size: 1em
+  font-size: 0.8em
 }
 .logout-btn {
   position: absolute;
@@ -217,7 +217,7 @@ button:hover{
   flex-direction: column;
   width: 80vw !important;
   height: 90vh !important;
-  margin: 40px auto;
+  margin: 2% auto;
   z-index: 15 !important;
 }
 
@@ -228,11 +228,11 @@ button:hover{
 .user-info-table {
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
-  margin-top: 40px;
+  margin-left: 2%;
+  margin-top: 2%;
 }
 .photo {
-  max-width: 350px;
+  max-width: 300px;
   width: 100% ;
   height: auto;
 }
@@ -252,7 +252,7 @@ tr div {
   display: grid;
   overflow: scroll;
   width: 70%;
-  height: 20%;
+  height: 30%;
   margin: 30px auto 0px auto;
   grid-template-columns: repeat(5, 1fr);
 }
@@ -261,10 +261,10 @@ tr div {
   color: #000;
   background: #ffc;
   display: block;
-  height: 8em;
-  width: 8em;
-  line-height: 4em;
-  border-radius: 50%;
+  height: 7em;
+  width: 7em;
+  line-height: 3em;
+  /* border-radius: 50%; */
   padding: 2em 1em;
   margin: 1em;
   -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);

@@ -131,7 +131,7 @@ export default {
   border-collapse: collapse;
 }
 .main-nav {
-  margin: 1em auto 0em auto;
+  margin: 0em auto;
   width: 94%;
 }
 .link {

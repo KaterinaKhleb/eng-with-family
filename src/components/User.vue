@@ -6,9 +6,9 @@
     </button>
       <div style="display: flex">
         <div class="user-info col-8">
-          <img v-if="user==='mama'" class="photo" src="../assets/mama.jpg">
-          <img v-if="user==='papa'" class="photo" src="../assets/papa.jpg">
-          <img v-if="user==='admin'" class="photo" src="../assets/admin.jpg">
+          <img v-if="user==='mama'" class="photo" src="../assets/mama.png">
+          <img v-if="user==='papa'" class="photo" src="../assets/papa.png">
+          <img v-if="user==='admin'" class="photo" src="../assets/admin.jpeg">
 
           <div class="user-info-table ml-3 mt-3">
             <tr class="info-line" v-bind:key="key" v-for="(item, key ) in userData">

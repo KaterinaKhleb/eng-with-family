@@ -272,7 +272,7 @@
   transition: 0.3s
 }
 .check-btn:hover {
-  transform: scale(1.3)
+  transform: scale(1.3);
 }
 .line-small {
   font-size: 12px !important;
@@ -294,7 +294,7 @@ text-decoration:none;
   text-align: left
 }
 .original-text {
-  font-size: 16px
+  font-size: 1vw
 }
 .main-todo {
     width:96%;
@@ -327,7 +327,7 @@ input[type=text]{
    width:100%;
    height:20px;
    margin-top:4%;
-   font-size: 18px
+   font-size: 1vw
   }
 
 input:focus{
@@ -347,7 +347,7 @@ input:focus{
 button {
   background: none;
   padding: 7px;
-  font-size: 20px;
+  font-size: 1.3vw;
   margin: 50px auto;
   border: 2px solid black;
   width: 20%;
@@ -361,15 +361,9 @@ button:hover{
   background: black;
   color:lightgray
 }
-.extra-btns button{
-width: 200px;
-height:200px;
-margin: 10% 5%;
-font-size: 24px
-}
 .list {
   color: #555;
-  font-size: 22px;
+  font-size: 1.2vw;
   padding: 0 !important;
   margin: 2% auto;
   width: 80%;

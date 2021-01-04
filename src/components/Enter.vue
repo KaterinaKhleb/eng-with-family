@@ -128,7 +128,7 @@ input[type=text]{
    height:40px;
    margin-top:1%;
    position: absolute;
-   font-size: 26px;
+   font-size: 1.6vw;
    top:47%
   }
 
@@ -259,7 +259,7 @@ button {
   background: none;
   padding: 7px;
   font-family: 'Space Mono', monospace;
-  font-size: 20px;
+  font-size: 1vw;
   width: 10%;
   margin: 10px auto;
   border: none;

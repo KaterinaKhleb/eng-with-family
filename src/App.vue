@@ -28,6 +28,7 @@ export default {
   font-family: 'Space Mono', monospace;
   text-align: center;
   color: black;
+  margin: auto;
   height: 100vh;
   width: 100vw;
   background:	#F3F3F3;

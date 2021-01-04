@@ -127,7 +127,7 @@ export default {
   z-index: 10 !important;
   table-layout: fixed;
   position: relative;
-  width: 60%;
+  width: 40%;
   border-collapse: collapse;
 }
 .main-nav {
@@ -135,23 +135,24 @@ export default {
   width: 94%;
 }
 .link {
-  padding: 30px 0px;
+  padding: 20px 0px;
   font-family: "Space Mono", monospace;
-  font-size: 18px;
+  font-size: 1vw;
   text-align: center;
   vertical-align: middle;
   border-collapse: collapse;
   display: table-cell;
-  width: 25%;
+  width: 15%;
   cursor: pointer;
 }
 .aktiv {
-  background: black;
-  color: lightgray;
+  /* background: black; */
+  /* color: lightgray; */
+  border-bottom: 2px solid black
 }
 
 .icon {
-  width: 40px;
+  width: 2.5vw;
   height: auto;
   transition: 0.5s;
 }

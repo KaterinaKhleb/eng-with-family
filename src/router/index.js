@@ -48,11 +48,6 @@ const routes = [{
         name: 'Task3',
         component: Task3
     },
-    {
-        path: '/shopping',
-        name: 'Shopping',
-        component: User
-    },
 
 ]
 

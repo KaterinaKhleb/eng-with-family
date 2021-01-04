@@ -158,11 +158,14 @@ export default {
 </script>
 
 <style>
+p {
+  font-size: 1em
+}
 .logout-btn {
   position: absolute;
   top: 7%;
   right: 2%;
-  width: 100px
+  width: 5%
 }
 input[type=text]{
   border: 0;
@@ -175,7 +178,7 @@ input[type=text]{
    width:40%;
    height:20px;
    margin-top:4%;
-   font-size: 18px
+   font-size: 1vw
   }
 
 input:focus{
@@ -186,7 +189,7 @@ input:focus{
    button {
   background: none;
   padding: 7px;
-  font-size: 20px;
+  font-size: 1vw;
   margin: 50px auto;
   border: 2px solid black;
   width: 40%;
@@ -212,7 +215,8 @@ button:hover{
 .main-user {
   display: flex;
   flex-direction: column;
-  width: 80vw;
+  width: 80vw !important;
+  height: 90vh !important;
   margin: 40px auto;
   z-index: 15 !important;
 }
@@ -228,7 +232,8 @@ button:hover{
   margin-top: 40px;
 }
 .photo {
-  width: 400px;
+  max-width: 350px;
+  width: 100% ;
   height: auto;
 }
 tr {
@@ -239,15 +244,9 @@ tr div {
   text-align: left !important;
   margin: 10px 0px;
 }
-.strike {
-  width: 100vw;
-  height: auto;
-  margin: 30px auto;
-  bottom: 40px;
-  left: 25vw;
-}
+
 .strike-word {
-  /* margin-top: 5% */
+  margin-top: 5%
 }
 .notes-lists {
   display: grid;
@@ -280,7 +279,7 @@ tr div {
   overflow-y: scroll;
 }
 .note span {
-  font-size: 40px;
+  font-size: 2vw;
 }
 
 .note:hover {

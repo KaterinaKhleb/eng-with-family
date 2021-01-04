@@ -263,7 +263,7 @@ body {
 .button-check {
   width: 120px !important;
   background: white;
-  font-size: 12px;
+  font-size: 0.8vw;
 }
 .text {
   position: absolute;
@@ -339,7 +339,7 @@ input[type="text"] {
   width: 60%;
   height: 40px;
   margin-top: 1%;
-  font-size: 26px;
+  font-size: 1.5vw;
 }
 
 input:focus {
@@ -352,7 +352,7 @@ button {
   background: none;
   padding: 7px;
   font-family: "Space Mono", monospace;
-  font-size: 20px;
+  font-size: 1.2vw;
   width: 10%;
   margin: 10px auto;
   border: 2px solid black;

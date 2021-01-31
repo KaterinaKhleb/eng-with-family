@@ -61,10 +61,10 @@
                 <div  class="row one-todo" >
                   <div class="check-holder"></div> 
                   <div class="span-holder">
-                    <div style="width:80% !important" v-if="user==='mama'">
+                    <div style="width:100% !important" v-if="user==='mama'">
                       <input type="text" class="line" v-model="sent.mamaVersion" contenteditable="true" >  
                     </div>
-                    <div style="width:80% !important"  v-if="user==='papa'">  
+                    <div style="width:100% !important"  v-if="user==='papa'">  
                       <input type="text"  class="line" v-model="sent.papaVersion" contenteditable="true" >  
                     </div>
                   </div>

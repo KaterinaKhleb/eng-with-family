@@ -1,93 +1,85 @@
 <template>
-
 <div class="main-notes-holder">
-
   <div class="bird-container ">
 		<div class="bird "></div>
 	</div>
-
   <div class="bird-container bird-container-back">
 		<div class="bird bird-back"></div>
 	</div>
-
   <div class="main-half">
     <div v-if="user==='admin'">
       <h3 style="margin-top:30px">Add a topic</h3>
-        <input @keyup.enter="newEssay" v-model="addEssayInput" name="add-essay" type='text'/> <br>
-        <button v-on:click.prevent="newEssay">Add </button>
+      <input @keyup.enter="newEssay" v-model="addEssayInput" name="add-essay" type='text'/> <br>
+      <button v-on:click.prevent="newEssay">Add </button>
     </div>
-       
     <h3>Your last essay: </h3>
-        <div v-for=" (item, index) in pastEssay"  v-bind:key="index" style="overflow: scroll; height: 60vh">
-          <div class="paper-past past" v-if="item.mamaVersion!= ''&& item.mamaResolved===false  && ((user==='admin')||(user === 'mama'))"  >
-            <div class="lines">
-              <div class="text-past" v-if="user==='admin'" contenteditable spellcheck="false">
-               <textarea style="font-size: 16px !important; width:94% !important; height: 100%"  v-html="item.mamaVersion" v-model="item.mamaVersion" contenteditable="true">
-               </textarea>
-              </div>
-              <button class="button-check" v-if="user==='admin' && item.mamaCheck===false"  v-on:click="checkCorrection(item,'mama')" >
-                  <img class="check-btn"  src="../assets/check.png"> Save corrections
-              </button>
-                <div class="button-check" v-if="user==='admin' && item.mamaCheck===true"  >
-                  <img class="check-btn"  src="../assets/check.png"> Essay is already checked
-              </div>
-                <div class="text-past" v-if="user==='mama'  && item.mamaResolved === false"  v-html="item.mamaVersion"   spellcheck="false">
-                {{item.mamaVersion}} <br /><br />
-              </div>
-            </div>
-            <div class="holes-past hole-top"></div>
-            <div class="holes-past hole-middle"></div>
-            <button v-on:click="resolveEssay(item)" v-if="user==='mama' && item.mamaCheck===true"  class="resolve-btn">Lesson is learnt!</button>
-
-             <div v-if="user==='mama'&&item.mamaCheck===true" class="note">
-              Great job!
-              </div>
-          </div>
-              <div v-if="item.papaVersion!= ''&& item.papaResolved===false  && ((user==='admin')||(user === 'papa'))" class="paper-past past">
-            <div class="lines">
-              <div class="text-past" v-if="user==='admin'"  spellcheck="false">
-                 <textarea style="font-size: 16px !important; width: 94% !important; height: 100%"  v-html="item.papaVersion" v-model="item.papaVersion" contenteditable="true">
+      <div v-for=" (item, index) in pastEssay"  v-bind:key="index" style="overflow: scroll; height: 60vh">
+        <div class="paper-past past" v-if="item.mamaVersion!= ''&& item.mamaResolved===false  && ((user==='admin')||(user === 'mama'))"  >
+          <div class="lines">
+            <div class="text-past" v-if="user==='admin'" contenteditable spellcheck="false">
+              <textarea style="font-size: 16px !important; width:94% !important; height: 100%"  v-html="item.mamaVersion" v-model="item.mamaVersion" contenteditable="true">
               </textarea>
-              </div>
-                <button class="button-check" v-if="user==='admin' && item.papaCheck===false"  v-on:click="checkCorrection(item,'papa')" >
-                  <img class="check-btn"  src="../assets/check.png"> Save corrections
-              </button>
-                <div class="button-check" v-if="user==='admin' && item.papaCheck===true"  >
-                  <img class="check-btn"  src="../assets/check.png"> Essay is already checked
-              </div>
-                <div class="text-past" v-if="user==='papa'"  v-html="item.papaVersion"   spellcheck="false">
-                {{item.papaVersion}} <br /><br />
-                </div>
-               
             </div>
-            <div class="holes-past  hole-top"></div>
-            <div class="holes-past hole-middle"></div>
-        <button v-on:click="resolveEssay(item)" v-if="user==='papa' && item.papaCheck === true"  class="resolve-btn">Lesson is learnt!</button>
-
-             <div v-if="user==='papa'&&item.papaCheck===true" class="note">
+            <button class="button-check" v-if="user==='admin' && item.mamaCheck===false"  v-on:click="checkCorrection(item,'mama')" >
+              <img class="check-btn"  src="../assets/check.png"> Save corrections
+            </button>
+            <div class="button-check" v-if="user==='admin' && item.mamaCheck===true"  >
+              <img class="check-btn"  src="../assets/check.png"> Essay is already checked
+            </div>
+            <div class="text-past" v-if="user==='mama'  && item.mamaResolved === false"  v-html="item.mamaVersion"   spellcheck="false">
+              {{item.mamaVersion}} <br /><br />
+            </div>
+            <div v-if="user==='mama'&&item.mamaCheck===true" class="note">
               Great job!
-              </div>
+            </div>
           </div>
+          <div class="holes-past hole-top"></div>
+          <div class="holes-past hole-middle"></div>
+          <button v-on:click="resolveEssay(item)" v-if="user==='mama' && item.mamaCheck===true"  class="resolve-btn">Lesson is learnt!</button>  
         </div>
+
+        <div v-if="item.papaVersion!= ''&& item.papaResolved===false  && ((user==='admin')||(user === 'papa'))" class="paper-past past">
+          <div class="lines">
+            <div class="text-past" v-if="user==='admin'"  spellcheck="false">
+              <textarea style="font-size: 16px !important; width: 94% !important; height: 100%"  v-html="item.papaVersion" v-model="item.papaVersion" contenteditable="true">
+              </textarea>
+            </div>
+            <button class="button-check" v-if="user==='admin' && item.papaCheck===false"  v-on:click="checkCorrection(item,'papa')" >
+              <img class="check-btn"  src="../assets/check.png"> Save corrections
+            </button>
+            <div class="button-check" v-if="user==='admin' && item.papaCheck===true"  >
+              <img class="check-btn"  src="../assets/check.png"> Essay is already checked
+            </div>
+            <div class="text-past" v-if="user==='papa'"  v-html="item.papaVersion"   spellcheck="false">
+                {{item.papaVersion}} <br /><br />
+            </div>
+            <div v-if="user==='papa'&&item.papaCheck===true" class="note">
+              Great job!
+            </div>
+          </div>
+          <div class="holes-past  hole-top"></div>
+          <div class="holes-past hole-middle"></div>
+          <button v-on:click="resolveEssay(item)" v-if="user==='papa' && item.papaCheck === true"  class="resolve-btn">Lesson is learnt!</button>
+        </div>
+      </div>
   </div>
 
   <div class="main-half">
     <h3>Your current task: </h3>
-      <div class="paper">
-        <div class="lines">
-          <div class="text" v-if="user==='mama'||user==='papa'" id="essay" contenteditable spellcheck="false">
-           <h3 v-if="essay">{{essay.task}}</h3>  <br /><br />
-            </div>
-          <div class="text" id="essay" v-if="user==='admin'"  spellcheck="false">
-            <h3 v-if="essay">{{essay.task}}</h3>  <br /><br />
-            </div>
+    <div class="paper">
+      <div class="lines">
+        <div class="text" v-if="user==='mama'||user==='papa'" id="essay" contenteditable spellcheck="false">
+          <h3 v-if="essay">{{essay.task}}</h3>  <br> <br>
         </div>
-        <div class="holes hole-top"></div>
-        <div class="holes hole-middle"></div>
-        <div class="holes hole-bottom"></div>
-        <button v-on:click="saveEssayText()" style="width:25%; margin-top: 20px">Submit</button>
+        <div class="text" id="essay" v-if="user==='admin'"  spellcheck="false">
+          <h3 v-if="essay">{{essay.task}} </h3>  <br> <br>
+        </div>
       </div>
-  
+      <div class="holes hole-top"></div>
+      <div class="holes hole-middle"></div>
+      <div class="holes hole-bottom"></div>
+      <button v-on:click="saveEssayText()" style="width:25%; margin-top: 20px">Submit</button>
+    </div>
   </div>
 </div>
 
@@ -109,10 +101,8 @@ export default {
   async created() {
     await this.userinfo(this.user);
     this.user = this.username;
-
     await this.fetchEssays(this.user);
     await this.fetchPastEssays(this.user);
-
     if (this.pastEssay != null) {
       this.pastEssay.forEach(el => {
         if (el.mamaResolved === true && el.papaResolved === true) {
@@ -139,7 +129,8 @@ export default {
       "removeEssay",
     ]),
 
-    newEssay: function() {
+    // Creates a new essay, only used by admin
+    newEssay(){
       let payload = {
         task: this.addEssayInput,
         mamaVersion: "",
@@ -152,8 +143,9 @@ export default {
       this.$store.dispatch("addEssay", payload);
       this.addEssayInput = "";
     },
-    saveEssayText() {
-      let text = document.getElementById("essay").innerText;
+    // Save updates to the essay object, used by everyone besudes admin
+    async saveEssayText() {
+      let text = document.getElementById("essay").innerHTML;
       if (this.user === "mama") {
         this.essay.mamaVersion = text;
       } else if (this.user === "papa") {
@@ -161,14 +153,13 @@ export default {
       }
       let toSend = { data: this.essay, user: this.user };
       this.$store.dispatch("saveEssay", toSend);
-
+      await this.fetchEssays(this.user);
+      await this.fetchPastEssays(this.user);
       document.getElementById("essay").innerText =
         "You completed an essay for this week!";
-
-        this.$$forceUpdate()
     },
 
-
+    // Saves a 'checked" property to each essay, used by the admin
     checkCorrection(essay, name) {
       if (name === "mama") {
         essay.mamaCheck = true;
@@ -179,7 +170,8 @@ export default {
       this.$store.dispatch("saveEssay", toSend);
     },
 
-    resolveEssay(item) {
+    // Used to resolve completed task. If the task is resolved by any user, it will be deleted.
+    async resolveEssay(item) {
       if (this.user === "mama") {
         item.mamaResolved = true;
         let toSend = { data: item, user: this.user };
@@ -190,6 +182,8 @@ export default {
         let toSend = { data: item, user: this.user };
         this.$store.dispatch("saveEssay", toSend);
       }
+      this.fetchEssays(this.user);
+      this.fetchPastEssays(this.user);
     },
   },
 };
@@ -197,7 +191,7 @@ export default {
 
 <style scoped>
 h3 {
-  font-size: 1.1em
+  font-size: 1.1em;
 }
 .resolve-btn {
   position: absolute;
@@ -215,7 +209,6 @@ h3 {
   width: 50%;
   display: block;
 }
-@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
 body {
   margin: 0;
   padding: 0;
@@ -237,7 +230,8 @@ body {
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 0px 5px 0px #888;
 }
-.paper::before , .paper-past::before{
+.paper::before,
+.paper-past::before {
   content: "";
   position: absolute;
   left: 45px;
@@ -247,7 +241,7 @@ body {
 }
 .paper-past::before {
   margin-left: 4%;
-  height: 50vh !important
+  height: 50vh !important;
 }
 .lines {
   margin-top: 40px;
@@ -276,17 +270,15 @@ body {
   bottom: 10px;
   right: 10px;
   line-height: 25px;
-  font-family: "Indie Flower";
   overflow: hidden;
   outline: none;
 }
 .text-past {
   text-align: left;
   height: 100%;
-  width: 94%;
+  width: 90%;
   margin-left: 10%;
   line-height: 25px;
-  font-family: "Indie Flower";
   overflow: hidden;
   outline: none;
 }
@@ -317,20 +309,6 @@ body {
 .hole-bottom {
   bottom: 10%;
 }
-.main-notes {
-  width: 94%;
-  margin: 0 auto !important;
-
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
-  border-collapse: collapse;
-  /* height:80%; */
-  position: relative;
-  z-index: 13 !important;
-  overflow: scroll;
-}
-
 input[type="text"] {
   border: 0;
   padding: 30px;
@@ -370,12 +348,6 @@ button:hover {
   background: black;
   color: lightgray;
 }
-.notes-lists {
-  display: grid;
-  width: 80%;
-  margin: 30px auto 0px auto;
-  grid-template-columns: repeat(6, 1fr);
-}
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* make scrollbar transparent */
@@ -386,7 +358,7 @@ button:hover {
   background: rgb(208, 255, 204);
   position: absolute;
   left: 5%;
-  bottom: 4%;
+  top: 50%;
   height: 70px !important;
   width: 130px !important;
   line-height: 1em !important;
@@ -403,6 +375,9 @@ button:hover {
   -o-transition: -o-transform 0.15s linear;
   -webkit-transition: -webkit-transform 0.15s linear;
   overflow-y: scroll;
+}
+.note:hover {
+  opacity: 0.2;
 }
 
 img:hover {
@@ -473,13 +448,6 @@ img:hover {
     margin: auto;
     height: 85vh;
   }
-  .main-notes {
-    width: 100%;
-  }
-  .notes-lists {
-    width: 90%;
-    grid-template-columns: repeat(4, 1fr);
-  }
   .note {
     height: 13em;
     width: 11em;
@@ -494,13 +462,6 @@ img:hover {
     margin: auto;
     height: 87vh;
   }
-  .main-notes {
-    width: 100%;
-  }
-  .notes-lists {
-    width: 90%;
-    grid-template-columns: repeat(3, 1fr);
-  }
   .note {
     height: 13em;
     width: 11em;
@@ -514,9 +475,6 @@ img:hover {
     width: calc(98% - 1px);
     margin: auto;
     height: 84vh;
-  }
-  .main-notes {
-    width: 100%;
   }
   h2 {
     font-size: 16px;

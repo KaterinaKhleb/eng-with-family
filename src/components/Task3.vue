@@ -1,100 +1,83 @@
 <template>
 
 <div class="main-notes-holder">
-
   <div class="bird-container ">
 		<div class="bird "></div>
 	</div>
-
   <div class="bird-container bird-container-back">
 		<div class="bird bird-back"></div>
 	</div>
 
-
   <div class="main-half">
     <h3>Your current task: </h3>
-      <div class="paper">
-        <div class="lines">
-          <div class="text" v-if="user==='mama'||user==='papa'" id="review" contenteditable spellcheck="false">
-           <h3 v-if="review">{{review.task}}</h3>  <br /><br />
-            </div>
-          <div class="text" id="review" v-if="user==='admin'"  spellcheck="false">
-            <h3 v-if="review">{{review.task}}</h3>  <br /><br />
-            </div>
+    <div class="paper">
+      <div class="lines">
+        <div class="text" v-if="user==='mama'||user==='papa'" id="review" contenteditable spellcheck="false">
+          <h3 v-if="review">{{review.task}}</h3>  <br /><br />
         </div>
-        <div class="holes hole-top"></div>
-        <div class="holes hole-middle"></div>
-        <div class="holes hole-bottom"></div>
-        <button v-on:click="savereviewText()" style="width:25%; margin-top: 20px">Submit</button>
+        <div class="text" id="review" v-if="user==='admin'"  spellcheck="false">
+          <h3 v-if="review">{{review.task}}</h3>  <br /><br />
+        </div>
       </div>
-  
+      <div class="holes hole-top"></div>
+      <div class="holes hole-middle"></div>
+      <div class="holes hole-bottom"></div>
+      <button v-on:click="savereviewText()" style="width:25%; margin-top: 20px">Submit</button>
+    </div>
   </div>
 
   <div class="main-half">
     <div v-if="user==='admin'">
       <h3 style="margin-top:30px">Add a topic</h3>
-        <input @keyup.enter="newreview" v-model="addreviewInput" name="add-review" type='text'/> <br>
-        <button v-on:click.prevent="newreview">Add </button>
-    </div>
-       
+      <input @keyup.enter="newreview" v-model="addreviewInput" name="add-review" type='text'/> <br>
+      <button v-on:click.prevent="newreview">Add </button>
+    </div>  
     <h3>Your last review: </h3>
-        <div v-for=" (item, index) in pastreview"  v-bind:key="index" style="overflow: scroll; height: 60vh">
-          <div class="paper-past past" v-if="item.mamaVersion!= ''&& item.mamaResolved===false  && ((user==='admin')||(user === 'mama'))"  >
-            <div class="lines">
-              <div class="text-past" v-if="user==='admin'" contenteditable spellcheck="false">
-               <textarea style="font-size: 16px !important; width: 100% !important; height: 100%"  v-html="item.mamaVersion" v-model="item.mamaVersion" contenteditable="true">
-               </textarea>
-              <!-- </input> -->
-              </div>
-              <button class="button-check" v-if="user==='admin' && item.mamaCheck===false"  v-on:click="checkCorrection(item,'mama')" >
-                  <img class="check-btn"  src="../assets/check.png"> Save corrections
-              </button>
-                <div class="button-check" v-if="user==='admin' && item.mamaCheck===true"  >
-                  <img class="check-btn"  src="../assets/check.png"> review is already checked
-              </div>
-                <div class="text-past" v-if="user==='mama' && item.mamaResolved === false"  v-html="item.mamaVersion"   spellcheck="false">
-                {{item.mamaVersion}} <br /><br />
-              </div>
-            </div>
-            <div v-if="user != 'admin'" class="holes-past hole-top"></div>
-            <div v-if="user != 'admin'" class="holes-past hole-middle"></div>
-            <div v-if="user != 'admin'" class="holes-past hole-bottom"></div>
-             <button v-on:click="resolvereview(item)" v-if="user==='mama' && item.mamaCheck===true"  class="resolve-btn">Lesson is learnt!</button>
-
-             <div v-if="user==='mama'&&item.mamaCheck===true" class="note">
-              Great job!
-              </div>
-          </div>
-
-
-          <div v-if="item.papaVersion!= ''&& item.papaResolved===false && ((user==='admin')||(user === 'papa'))" class="paper-past past">
-            <div class="lines">
-              <div class="text-past" v-if="user==='admin'"  spellcheck="false">
-                 <textarea style="font-size: 16px !important; width: 100% !important; height: 100%"  v-html="item.papaVersion" v-model="item.papaVersion" contenteditable="true">
+      <div v-for=" (item, index) in pastreview"  v-bind:key="index" style="overflow: scroll; height: 60vh">
+        <div class="paper-past past" v-if="item.mamaVersion!= ''&& item.mamaResolved===false  && ((user==='admin')||(user === 'mama'))"  >
+          <div class="lines">
+            <div class="text-past" v-if="user==='admin'" contenteditable spellcheck="false">
+              <textarea style="font-size: 16px !important; width: 100% !important; height: 100%"  v-html="item.mamaVersion" v-model="item.mamaVersion" contenteditable="true">
               </textarea>
-              </div>
-                <button class="button-check" v-if="user==='admin' && item.papaCheck===false"  v-on:click="checkCorrection(item,'papa')" >
-                  <img class="check-btn"  src="../assets/check.png"> Save corrections
-              </button>
-                <div class="button-check" v-if="user==='admin' && item.papaCheck===true"  >
-                  <img class="check-btn"  src="../assets/check.png"> review is already checked
-              </div>
-                <div class="text-past" v-if="user==='papa' && item.papaResolved === false"   v-html="item.papaVersion"   spellcheck="false">
-                {{item.papaVersion}} <br /><br />
-                </div>
-             
             </div>
-            <div v-if="user != 'admin'" class="holes-past hole-top"></div>
-            <div v-if="user != 'admin'" class="holes-past hole-middle"></div>
-            <div v-if="user != 'admin'" class="holes-past hole-bottom"></div>
-               <button v-on:click="resolvereview(item)" v-if="user==='papa' && item.papaCheck === true" class="resolve-btn">Lesson is learnt!</button>
-
-             <div v-if="user==='papa'&&item.papaCheck===true" class="note">
+            <button class="button-check" v-if="user==='admin' && item.mamaCheck===false"  v-on:click="checkCorrection(item,'mama')" >
+              <img class="check-btn"  src="../assets/check.png"> Save corrections
+            </button>
+            <div class="button-check" v-if="user==='admin' && item.mamaCheck===true"  >
+              <img class="check-btn"  src="../assets/check.png"> review is already checked
+            </div>
+            <div class="text-past" v-if="user==='mama' && item.mamaResolved === false"  v-html="item.mamaVersion"   spellcheck="false">
+              {{item.mamaVersion}} <br /><br />
+            </div>
+            <div v-if="user==='mama'&&item.mamaCheck===true" class="note">
               Great job!
-              </div>
+            </div>
           </div>
+          <button v-on:click="resolvereview(item)" v-if="user==='mama' && item.mamaCheck===true"  class="resolve-btn">Lesson is learnt!</button>     
         </div>
 
+        <div v-if="item.papaVersion!= ''&& item.papaResolved===false && ((user==='admin')||(user === 'papa'))" class="paper-past past">
+          <div class="lines">
+            <div class="text-past" v-if="user==='admin'"  spellcheck="false">
+              <textarea style="font-size: 16px !important; width: 100% !important; height: 100%"  v-html="item.papaVersion" v-model="item.papaVersion" contenteditable="true">
+              </textarea>
+            </div>
+            <button class="button-check" v-if="user==='admin' && item.papaCheck===false"  v-on:click="checkCorrection(item,'papa')" >
+              <img class="check-btn"  src="../assets/check.png"> Save corrections
+            </button>
+            <div class="button-check" v-if="user==='admin' && item.papaCheck===true"  >
+              <img class="check-btn"  src="../assets/check.png"> review is already checked
+            </div>
+            <div class="text-past" v-if="user==='papa' && item.papaResolved === false"   v-html="item.papaVersion"   spellcheck="false">
+              {{item.papaVersion}} <br /><br />
+            </div>
+            <div v-if="user==='papa'&&item.papaCheck===true" class="note">
+              Great job!
+            </div> 
+          </div>
+          <button v-on:click="resolvereview(item)" v-if="user==='papa' && item.papaCheck === true" class="resolve-btn">Lesson is learnt!</button>
+        </div>
+      </div>
   </div>
 </div>
 
@@ -116,11 +99,9 @@ export default {
   async created() {
     await this.userinfo(this.user);
     this.user = this.username;
-
     await this.fetchreviews(this.user);
     await this.fetchPastreviews(this.user);
-    console.log("the past reviews: ", this.pastreview);
-
+    console.log(this.pastreview)
     if (this.pastreview != null) {
       this.pastreview.forEach(el => {
         if (el.mamaResolved === true && el.papaResolved === true) {
@@ -128,10 +109,6 @@ export default {
         }
       });
     }
-  },
-  updated() {
-    //  this.fetchreviews(this.user)
-    //   this.fetchPastreviews(this.user)
   },
   computed: {
     ...mapGetters(["review", "pastreview", "username"]),
@@ -147,6 +124,7 @@ export default {
       "removereview",
     ]),
 
+    // Creating a new review object, only used by admin
     newreview: function() {
       let payload = {
         task: this.addreviewInput,
@@ -160,8 +138,10 @@ export default {
       this.$store.dispatch("addreview", payload);
       this.addreviewInput = "";
     },
-    savereviewText() {
-      let text = document.getElementById("review").innerText;
+
+    // Saving review object when modified by users besides admin
+    async savereviewText() {
+      let text = document.getElementById("review").innerHTML;
       if (this.user === "mama") {
         this.review.mamaVersion = text;
       } else if (this.user === "papa") {
@@ -169,13 +149,15 @@ export default {
       }
       let toSend = { data: this.review, user: this.user };
       this.$store.dispatch("savereview", toSend);
-
+      await this.fetchreviews(this.user);
+      await this.fetchPastreviews(this.user)
       document.getElementById("review").innerText =
         "You completed an review for this week!";
 
         this.$forceUpdate()
     },
 
+    // Providing 'checked' property to the checked review essays
     checkCorrection(review, name) {
       if (name === "mama") {
         review.mamaCheck = true;
@@ -186,6 +168,7 @@ export default {
       this.$store.dispatch("savereview", toSend);
     },
 
+    // Used to resolve completed task. If the task is resolved by any user, it will be deleted.
     resolvereview(item) {
       if (this.user === "mama") {
         item.mamaResolved = true;
@@ -197,6 +180,8 @@ export default {
         let toSend = { data: item, user: this.user };
         this.$store.dispatch("savereview", toSend);
       }
+      this.fetchEssays(this.user);
+      this.fetchPastEssays(this.user);
     },
   },
 };
@@ -238,13 +223,10 @@ body {
   box-shadow: 0px 0px 5px 0px #888;
 }
 .paper-past {
-  /* margin-right: 7% !important; */
   margin: auto;
-  /* position: absolute; */
   height: 50vh;
   width: 80%;
   background: rgba(255, 255, 255, 0.9);
-  /* top: 7%; */
   box-shadow: 0px 0px 5px 0px #888;
 }
 .paper::before {
@@ -290,7 +272,6 @@ body {
   bottom: 10px;
   right: 10px;
   line-height: 25px;
-  font-family: "Indie Flower";
   overflow: hidden;
   outline: none;
 }
@@ -300,7 +281,6 @@ body {
   width: 80%;
   margin-right: 10%;
   line-height: 25px;
-  font-family: "Indie Flower";
   overflow: hidden;
   outline: none;
 }
@@ -332,19 +312,6 @@ body {
 .hole-bottom {
   bottom: 10%;
 }
-.main-notes {
-  width: 94%;
-  margin: 0 auto !important;
-
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
-  border-collapse: collapse;
-  /* height:80%; */
-  position: relative;
-  z-index: 13 !important;
-  overflow: scroll;
-}
 
 input[type="text"] {
   border: 0;
@@ -374,7 +341,6 @@ button {
   width: 10%;
   margin: 10px auto;
   border: 2px solid black;
-  /* text-transform: uppercase; */
   transition: all 300ms cubic-bezier(0.77, 0, 0.175, 1);
   cursor: pointer;
   user-select: none;
@@ -401,7 +367,7 @@ button:hover {
   background: rgb(208, 255, 204);
   position: absolute;
   right: 5%;
-  bottom: 4%;
+  top: 50%;
   height: 70px !important;
   width: 130px !important;
   line-height: 1em !important;
